@@ -4,6 +4,8 @@ var cors = require('cors');
 var app = express();
 var mongoose = require('mongoose');
 var Insurance = require('./Insurance');
+var calculate_insurance = require('./calculate_insurance');
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -18,6 +20,7 @@ app.listen(port);
 console.log('REST API is runnning at ' + port);
 
 mongoose.connect('mongodb://localhost:27017/Insurances');
+
 
 router.use(function (req, res, next) {
     // do logging 
@@ -58,6 +61,16 @@ router.route('/Insurances').post(function (req, res) {
     })
 });
 
+
+router.route('/calculate_insurance').post(function (req, res) { 
+    var product_details = req.body;
+    var car_price = product_details.price;
+    var customer_age = product_details.age;
+
+    var insurance_amount = Insurance_cal(car_price, customer_age);
+    res.json({insurance_amount: insurance_amount});
+});
+
 router.route('/Insurances').get(function (req, res) {
     Insurance.find(function (err, Insurances) {
         if (err) {
@@ -84,3 +97,16 @@ router.route('/Insurances/:Insurances_id').delete(function (req, res) {
     })
  
 });
+
+function Insurance_cal(car_price, customer_age){
+    Insurance_money = 0;
+    if(car_price<100 || customer_age >60) 
+    {
+        console.log("Insurance IS NOT Available");
+    }
+    else
+    {
+        Insurance_money = car_price*0.10;
+    }
+    return Insurance_money;
+}
