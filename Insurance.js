@@ -8,7 +8,8 @@ var InsuranceSchema = new Schema({
     Insurance_money: String
 
      });
-
 module2.exports = mongoose2.model('Insurance', InsuranceSchema);
 
 module.exports = mongoose.model('Insurance', InsuranceSchema);
+
+module1.exports = mongoose1.model('Insurance1', InsuranceSchema);
