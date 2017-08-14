@@ -1,0 +1,4 @@
+[submodule "car_review"]
+	path = car_review
+	url = https://github.com/aartikumari/car_review.git
+	branch = master
